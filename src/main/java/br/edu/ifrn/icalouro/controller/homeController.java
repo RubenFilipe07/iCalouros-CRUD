@@ -38,7 +38,7 @@ public class homeController {
 		return "curso/materias";
 	}
 	
-	@GetMapping("forum/forum")
+	@GetMapping("forum")
 	public String hospedagem() {
 		return "forum/forum";
 	}

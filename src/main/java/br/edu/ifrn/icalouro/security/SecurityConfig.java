@@ -23,8 +23,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   /** Este método restringe e permite o acesso do usuário a determinadas páginas do site.*/
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-      .antMatchers("/**").permitAll();
+    http.authorizeRequests().antMatchers("/estilos/**", "/imagens/**", "/usuario/cadastro").permitAll()
+    .antMatchers("/publico/**", "/usuario/salvar").permitAll()
+    .anyRequest().authenticated()
+    .and()
+
+    .formLogin()
+    .loginPage("/login")
+    .defaultSuccessUrl("/", true)
+    .failureUrl("/login-error")
+    .permitAll()
+    .and()
+    .logout()
+    .logoutSuccessUrl("/");
+    
   }
 
   /** Este método faz parta da criptografia das senhas.*/

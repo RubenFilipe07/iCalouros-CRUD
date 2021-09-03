@@ -23,7 +23,7 @@
    #listaMenu{
     text-decoration: none;
     color: white;
-    margin-left: 20%;
+    margin-left: 37%;
    }
    
    
@@ -65,5 +65,9 @@
     width: 150px;
    }
 
+	.container-fluid{
+	margin: 0px;
+	padding: 0px;
+	}
 
    

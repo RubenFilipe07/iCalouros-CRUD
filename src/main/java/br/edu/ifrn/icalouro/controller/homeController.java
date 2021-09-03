@@ -39,8 +39,13 @@ public class homeController {
 	}
 	
 	@GetMapping("forum")
-	public String hospedagem() {
+	public String forum() {
 		return "forum/forum";
+	}
+	
+	@GetMapping("sobre")
+	public String sobre() {
+		return "sobre/sobre";
 	}
 	
 	@GetMapping("/login")

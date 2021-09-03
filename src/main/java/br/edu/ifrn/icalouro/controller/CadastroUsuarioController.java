@@ -32,70 +32,39 @@ import br.edu.ifrn.icalouro.repository.UsuarioRepository;
 
 /** Esta classe armazena os métodos para cadastrar e editar um usuário.*/
 @Controller
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 public class CadastroUsuarioController {
 
   @Autowired
   private UsuarioRepository usuarioRepository;
 
-  @Autowired
-  private ArquivoRepository arquivoRepository;
-
   /** Este método é para entrar cadastro.*/
   @GetMapping("/cadastro")
   public String entrarCadastro(ModelMap model) {
     model.addAttribute("usuario", new Usuario());
-
     return "usuario/cadastro";
   }
+  
 
   /** Este método é para salvar o usuário no BD.*/
   @PostMapping("/salvar")
   @Transactional(readOnly = false)
-  public String salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attr,
-    @RequestParam("file") MultipartFile arquivo) {
-
-    try {
-      if (arquivo != null && !arquivo.isEmpty()) {
-
-        String nomeArquivo = StringUtils.cleanPath(arquivo.getOriginalFilename());
-
-        Arquivo arquivoBD = new Arquivo(null, nomeArquivo, arquivo.getContentType(), arquivo.getBytes());
-
-        arquivoRepository.save(arquivoBD);
-
-        if (usuario.getFoto() != null && usuario.getFoto().getId() != null && usuario.getFoto().getId() > 0) {
-          arquivoRepository.delete(usuario.getFoto());
-        }
-
-        usuario.setFoto(arquivoBD);
-
-      } else {
-        usuario.setFoto(null);
-      }
-
-      if (result.hasErrors()) {
-        return "usuario/cadastro";
-      }
-
-      String senhaCriptografada = new BCryptPasswordEncoder().encode(usuario.getSenha());
+  public String salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attr) {
+   
+	  if (result.hasErrors()) {
+		  return "usuario/cadastro";
+	  }
+	 
+	  String senhaCriptografada = new BCryptPasswordEncoder().encode(usuario.getSenha());
+	  
       usuario.setSenha(senhaCriptografada);
-
+      
       usuarioRepository.save(usuario);
+      
       attr.addFlashAttribute("msgSucesso", "Operação realizada com sucesso!");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return "redirect:/usuarios/cadastro";
-  }
-
-  /** Este método é para editar o usuário.*/
-
-  @GetMapping("/editar/{id}")
-  public String iniciarEdicao(@PathVariable("id") Integer idUsuario, ModelMap model) {
-    model.addAttribute("usuario", usuarioRepository.findById(idUsuario));
-    return "usuario/cadastro";
+	  
+   
+    return "redirect:/usuario/cadastro";
   }
 
 }

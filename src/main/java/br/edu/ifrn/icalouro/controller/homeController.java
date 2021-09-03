@@ -43,7 +43,7 @@ public class homeController {
 		return "forum/forum";
 	}
 	
-	@GetMapping("usuario/login")
+	@GetMapping("/login")
 	public String login() {
 	    return "usuario/login";
 	}

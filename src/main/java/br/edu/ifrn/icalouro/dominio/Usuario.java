@@ -33,15 +33,15 @@ public class Usuario {
 	@NotBlank(message = "O campo email é obrigatório.")
 	private String email;
 
+	@NotBlank(message = "O campo endereço é obrigatório.")
+	private String endereco;
+	
 	@NotBlank(message = "O campo senha é obrigatório.")
 	@Size(min = 8, message = "O campo senha deve ter no mínimo 8 caracteres.")
 	private String senha;
 
 	@NotBlank(message = "O campo sexo é obrigatório.")
 	private String sexo;
-	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private Arquivo foto;
 	
 	@Column(nullable = false)
 	private String perfil = USUARIO_COMUM;
@@ -80,12 +80,6 @@ public class Usuario {
 		this.sexo = sexo;
 	}
 
-	public Arquivo getFoto() {
-		return foto;
-	}
-	public void setFoto(Arquivo foto) {
-		this.foto = foto;
-	}
 	public String getPerfil() {
 		return perfil;
 	}
@@ -93,6 +87,18 @@ public class Usuario {
 		this.perfil = perfil;
 	}
 	
+	public String getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+	public List<Postagem> getPostagens() {
+		return postagens;
+	}
+	public void setPostagens(List<Postagem> postagens) {
+		this.postagens = postagens;
+	}
 	
 	@Override
 	public int hashCode() {

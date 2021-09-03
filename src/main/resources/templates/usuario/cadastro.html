@@ -1,70 +1,65 @@
 <!DOCTYPE html>
-
-<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" 
-xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <title>Cadastro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <link href="/estilos/index.css" rel="stylesheet">
-</head>
-<body>
-  
-    <div class="container-fluid">
-        <nav id="menu" class="navbar navbar-expand-lg navbar-light fixed-top">
-           <a class="navbar-brand" href="index.html">
-          <img id="logo" src="/imagens/logo.png" width="90" height="50" class="d-inline-block align-top" alt="Logo">
-           <span id="marca">iCalouro</span>
-           </a>
-          </nav>
-
-
-          <!--Formulario de cadastro-->
-
-          <div class="centro">
-              <form id="formulario" th:action="@{/aluno/salvar}" th:object="${aluno}" method="POST" style="margin-top: 15px;">
-                  <h4 class="text-center">Cadastro</h4>
-                  
-                  <input type="hidden" th:field="${aluno.id}"/>
-                  
-                  <div class="form-group">
-                      <label for="name">Nome</label>
-                      <input type="text" class="form-control" id="name" th:field="${aluno.nome}" placeholder="Digite seu nome">
-                    </div>
-                    
-                  <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" th:field="${aluno.email}" placeholder="Digite seu email">
-                  </div>
-  
-                  <div class="form-group">
-                      <label for="phone">Telefone</label>
-                      <input type="tel" class="form-control" id="tel" th:field="${aluno.telefone}" placeholder="Digite seu telefone com o DDD da sua região">
-                  </div>
-  
-                  <div class="form-group">
-                      <label for="text">Endereço</label>
-                      <input type="text" class="form-control" id="address" th:field="${aluno.endereco}" placeholder="Digite seu endereço">
-                    </div>
-  
-                  <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input type="password" class="form-control" id="password" th:field="${aluno.senha}" placeholder="Digite sua senha">
-                  </div>
-   
-                  <button id="btn-submit" type="submit" class="btn btn-success" th:value="${aluno.id} == 0 ? Cadastrar : Editar">Cadastrar</button>
-                </form>
-  
-          </div>
-        </div>
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+    <head>
+        <title>Cadastro</title>
+    </head>
+    <body>
+        <!--Formulario de cadastro -->
+        <section layout:fragment="content">
         
+          <div th:replace="fragments/mensagens"></div>
+          
+          
+        
+            <form id="formulario" th:action="@{/usuario/salvar}" th:object="${usuario}" method="POST" style="margin-top: 15px;">
+                <h4 class="text-center">Cadastro</h4>
 
-<!-- O JS fica aqui para otimizar o carregamento da página.-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>    
+        	 <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+             	<ul>
+                	<li th:each="error : ${#fields.detailedErrors()}">
+                    	<b th:text="${error.message}" style="color: red;"></b>
+                    </li>
+              	</ul>
+              </div>
+              
+                <input type="hidden" th:field="${usuario.id}" />
 
-</body>
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" class="form-control" id="name" th:field="${usuario.nome}" placeholder="Digite seu nome" />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" th:field="${usuario.email}" placeholder="Digite seu email" />
+                </div>
+
+                <div class="form-group">
+                    <label for="text">Endereço</label>
+                    <input type="text" class="form-control" id="address" th:field="${usuario.endereco}" placeholder="Digite seu endereço" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" class="form-control" id="password" th:field="${usuario.senha}" placeholder="Digite sua senha" />
+                </div>
+                
+                <label for="sexo">Sexo</label>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexo" th:field="${usuario.sexo}" th:value="M" />
+                        <label class="form-check-label">Masculino</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sexo" th:field="${usuario.sexo}" th:value="F" />
+                        <label class="form-check-label">Feminino</label>
+                    </div>
+                
+                
+
+                <button id="btn-submit" type="submit" class="btn btn-success" th:value="Cadastrar">Cadastrar</button>
+            </form>
+        </section>
+    </body>
 </html>
-
